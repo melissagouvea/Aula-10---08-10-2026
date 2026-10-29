@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+
+  <!--
+    ETAPA 3 - NOTEBOOK (1280px).
+    O QUE MUDOU em relação à etapa 2:
+      - ADICIONA lg:grid-cols-3 no main:
+        o layout passa a ter 3 colunas no notebook.
+      - ADICIONA lg:col-span-2 na seção da lista:
+        a lista ocupa as duas colunas da direita.
+      - ALTERA o formulário com lg:flex-col:
+        os campos ficam empilhados na coluna estreita.
+      - ALTERA os filtros com flex-wrap:
+        os botões passam para a linha de baixo quando necessário.
+      - REMOVE overflow-x-auto dos filtros:
+        não há mais rolagem horizontal nessa barra.
+  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EsToDoList</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<!-- Fundo cinza claro, texto escuro e altura mínima da tela -->
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+
+  <!-- Cabeçalho -->
+  <header class="bg-cyan-500 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl md:text-3xl font-bold">EsToDoList</h1>
+
+      <span class="hidden sm:inline text-sm">
+        Organize sua rotina escolar
+      </span>
+    </div>
+  </header>
+
+  <!--
+    ADICIONA lg:grid-cols-3:
+    em telas grandes, o main passa a ter 3 colunas.
+    No celular, continua com apenas 1 coluna.
+  -->
+  <main class="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+    <!-- Coluna 1: formulário, pesquisa e filtros -->
+    <section class="bg-white rounded-xl shadow p-4 space-y-4 lg:sticky lg:top-6 lg:self-start">
+
+      <!--
+        lg:sticky e lg:top-6:
+        mantêm o quadro visível durante a rolagem no notebook.
+        lg:self-start e items-start:
+        impedem que o quadro aumente de altura junto com a lista.
+      -->
+
+      <!--
+        flex-col: campos empilhados por padrão.
+        md:flex-row: ficam lado a lado a partir de telas médias.
+        lg:flex-col: voltam a ficar empilhados no notebook,
+        pois a primeira coluna é mais estreita.
+      -->
+      <form class="flex flex-col md:flex-row lg:flex-col gap-3">
+
+        <!-- Campo para digitar uma nova tarefa -->
+        <input
+          type="text"
+          placeholder="Nova tarefa"
+          class="border border-slate-200 rounded-lg px-3 py-3 w-full
+                 transition-all duration-300 ease-in-out
+                 hover:border-cyan-500
+                 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100
+                 focus:outline-none"
+        >
+
+        <!-- Campo para selecionar a data da tarefa -->
+        <input
+          type="date"
+          class="border border-slate-200 rounded-lg px-3 py-3 w-full
+                 transition-all duration-300 ease-in-out
+                 hover:border-cyan-500
+                 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100
+                 focus:outline-none"
+        >
+
+        <!-- Botão para adicionar uma tarefa -->
+        <button
+          type="submit"
+          class="bg-cyan-500 text-white rounded-lg px-4 py-3 font-semibold hover:bg-cyan-700 transition-colors duration-300"
+        >
+          Adicionar
+        </button>
+
+      </form>
+
+      <!-- Campo de pesquisa -->
+      <input
+        type="search"
+        placeholder="Pesquisar tarefa..."
+        class="w-full border border-slate-200 rounded-lg px-3 py-3
+               transition-all duration-300 ease-in-out
+               hover:border-cyan-500
+               focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100
+               focus:outline-none"
+      >
+
+      <!--
+        ALTERA os filtros:
+        flex-wrap permite que os botões quebrem para a linha de baixo.
+        Não usamos overflow-x-auto, portanto não há rolagem lateral.
+      -->
+      <div class="flex flex-wrap gap-2">
+
+        <button
+          type="button"
+          class="px-4 py-3 rounded-full bg-cyan-500 text-white whitespace-nowrap"
+        >
+          Todas
+        </button>
+
+        <button
+          type="button"
+          class="px-4 py-3 rounded-full bg-slate-200 whitespace-nowrap hover:bg-slate-300 transition-colors duration-300"
+        >
+          Pendentes
+        </button>
+
+        <button
+          type="button"
+          class="px-4 py-3 rounded-full bg-slate-200 whitespace-nowrap hover:bg-slate-300 transition-colors duration-300"
+        >
+          Concluídas
+        </button>
+
+      </div>
+    </section>
+
+    <!--
+      ADICIONA lg:col-span-2:
+      a lista ocupa as duas colunas restantes no notebook.
+    -->
+    <section class="lg:col-span-2 min-w-0">
+
+      <ul class="space-y-3">
+
+        <!-- Tarefa 1 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" checked class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium text-gray-400 line-through decoration-gray-400">
+                Trabalho de História
+              </span>
+              <span class="text-sm text-gray-400">
+                20/10/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 2 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium">
+                Estudar para a prova de Matemática
+              </span>
+              <span class="text-sm text-slate-500">
+                22/10/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 3 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" checked class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium text-gray-400 line-through decoration-gray-400">
+                Entregar projeto no GitHub
+              </span>
+              <span class="text-sm text-slate-500">
+                08/10/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 4 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium">
+                Realizar experimento
+              </span>
+              <span class="text-sm text-slate-500">
+                29/10/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 5 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium">
+                Feira de Ciências
+              </span>
+              <span class="text-sm text-slate-500">
+                10/11/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 6 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" checked class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium text-gray-400 line-through decoration-gray-400">
+                Prova de sociologia
+              </span>
+              <span class="text-sm text-slate-500">
+                17/11/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 7 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium">
+                Mapa mental de inglês
+              </span>
+              <span class="text-sm text-slate-500">
+                15/11/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+        <!-- Tarefa 8 -->
+        <li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+
+          <label class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" class="mt-1 w-5 h-5 accent-cyan-500 shrink-0">
+
+            <span>
+              <span class="block font-medium">
+                Questões 10 e 11 de LP
+              </span>
+              <span class="text-sm text-slate-500">
+                20/11/2026
+              </span>
+            </span>
+          </label>
+
+          <div class="flex gap-2">
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-cyan-100 hover:bg-cyan-200 transition-colors duration-300">
+              Editar
+            </button>
+
+            <button type="button" class="flex-1 px-4 py-3 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors duration-300">
+              Excluir
+            </button>
+          </div>
+
+        </li>
+
+      </ul>
+
+      <!-- Contador de tarefas -->
+      <p class="mt-4 text-sm text-slate-500">
+        5 tarefas pendentes
+      </p>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
